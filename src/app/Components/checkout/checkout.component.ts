@@ -90,9 +90,10 @@ export class CheckoutComponent {
   }
 
   calculatePrice() {
+    if (!this.cartItems || this.cartItems.length === 0) return 0;
     return this.cartItems.reduce((total, item) => {
       return total + (item.price * item.quantity);
-    }, 0); // Initialize the total as 0
+    }, 0);
   }
 
   onSubmit(e: any) {
