@@ -48,9 +48,11 @@ export class PaymentService {
     }
     return 0; // Default to 0 if localStorage is unavailable
   }
-  getStoredCartItems(): Item[] {
-    const storedItems = localStorage.getItem('cartItems');
-    return storedItems ? JSON.parse(storedItems) : [];
+  getStoredCartItems() {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const storedItems = localStorage.getItem('cartItems');
+      return storedItems ? JSON.parse(storedItems) : [];
+    }
   }
 
   // Increment cart count and store it
@@ -104,8 +106,10 @@ export class PaymentService {
   }
   // Store cart items in localStorage
   storeCartItems(items: Item[]) {
-    localStorage.setItem('cartItems', JSON.stringify(items));
-    this.cartChannel.postMessage({ type: 'cart_update' });
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('cartItems', JSON.stringify(items));
+      this.cartChannel.postMessage({ type: 'cart_update' });
+    }
   }
   // Method to get the cart items
   getCartItemsObservable(): Observable<Item[]> {
