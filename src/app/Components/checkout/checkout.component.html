@@ -1,0 +1,99 @@
+<section class="cart-header text-center">
+  <div class="title">
+    <h5>CHECKOUT</h5>
+  </div>
+</section>
+
+<section class="layout">
+  <div class="container">
+    <li>
+      <div class="checkout-view">
+        <div class="header">
+          <h2>Customer</h2>
+          @if(!firstField){
+          <fa-icon (click)="closeFirstField()" [icon]="faMinus" class="faMinus"></fa-icon>
+          }
+        </div>
+        <div class="body cust">
+          <form class="w-50" [formGroup]="emailForm">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                formControlName="email">
+
+              <div id="emailHelp" class="form-text">
+                We'll never share your email with anyone else.
+              </div>
+            </div>
+            <button type="submit" (click)="getEmail($event)" class="btn my-3">
+              CONTAINUE
+            </button>
+          </form>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="checkout-view">
+        <div class="header">
+          <h2>Shipping</h2>
+          @if(!seconedField){
+          <fa-icon (click)="closeSeconedField()" [icon]="faMinus" class="faMinus"></fa-icon>
+          }
+        </div>
+        <div class="body ship visible">
+          <form class="w-50" [formGroup]="shipForm" (ngSubmit)="onSubmit($event)">
+            <div class="d-flex name_container">
+              <div class="mb-3 user-name col-md-6">
+                <label for="exampleInputtext1" class="form-label">FirstName</label>
+                <input type="text" class="form-control" id="exampleInputtext1" formControlName="firstName">
+
+              </div>
+              <div class="mb-3 user-name col-md-6">
+                <label for="exampleInputtext2" class="form-label">LastName</label>
+                <input type="text" class="form-control" id="exampleInputtext2" formControlName="lastName" />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputtext3" class="form-label">ِAddress</label>
+              <input type="text" class="form-control" id="exampleInputtext3" formControlName="address" />
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputtext4" class="form-label">Phone Number</label>
+              <input type="text" class="form-control" id="exampleInputtext4" formControlName="phoneNumber" />
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <button type="submit" class="btn my-3">
+              CONTAINUE
+            </button>
+          </form>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="checkout-view">
+        <div class="header">
+          <h2>Billing</h2>
+        </div>
+        <div class="body bill visible">
+          <div class="buy" [class.loading]="isLoading" [class.processing]="isProcessing" [class.success]="isSuccess"
+            (click)="BuyStripe()">
+            @if(isSuccess){
+            <fa-icon class="fa fa-check" [icon]="faCheck"></fa-icon>
+            }
+            @if(!isLoading){
+            <span>Buy Now!</span>
+            <small>US${{calculatePrice()}}</small>
+            }
+            <div class="download" [class.active]="isDownloadActive">
+              <fa-icon class="fas fa-shipping-fast"  [icon]="faShippingFast"></fa-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+
+  </div>
+</section>

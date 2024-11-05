@@ -1,0 +1,112 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap");
+
+.product_details {
+  background-image: url("../../../assets/img/bg4.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 175px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10rem;
+  position: relative;
+  h5 {
+    font-family: "Cormorant", serif;
+    font-weight: normal;
+    font-size: 50px;
+    line-height: 50px;
+    color: #fff;
+    position: relative;
+    z-index: 99999;
+  }
+  .title {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(45, 45, 45, 0.8) 0%,
+        rgba(45, 45, 45, 0) 100%
+      );
+    }
+  }
+}
+
+.parent {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  margin: 40px 100px;
+  transition: 0.3s ease-out;
+
+  .col_2 {
+    padding: 50px;
+    background-image: url("../../../assets/img/bg5.jpg");
+    background-position: center;
+    background-size: cover;
+    color: #fff;
+    .box {
+      display: grid;
+      height: 100%;
+      font-family: "Cormorant", serif;
+      h5 {
+        font-weight: bolder;
+        letter-spacing: 4px;
+        font-size: 25px;
+        text-transform: uppercase;
+      }
+      .details {
+        font-size: larger;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+    .button {
+      justify-self: end;
+      .detail-btn {
+        background-color: #2d2d2d;
+        color: #fff;
+        padding: 10px 20px;
+        font-family: "Cormorant", sans-serif;
+        border-radius: 0;
+        &:active {
+          outline: none !important;
+          border: none;
+        }
+      }
+    }
+  }
+  .prod_desc {
+    font-family: "Cormorant", serif;
+    h3 {
+      font-weight: bold;
+    }
+  }
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    .col_1 {
+      order: 2;
+    }
+    .col_2 {
+      order: 1;
+    }
+  }
+  @media (min-width: 769px) and (max-width:1200px) {
+    grid-template-columns: 50% 50%;
+  }
+}
+
+::ng-deep .p-galleria-content {
+  position: relative;
+}
+::ng-deep .p-galleria .p-galleria-thumbnail-container {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  background: transparent;
+}

@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap");
+
+.main {
+  overflow: hidden;
+  position: relative;
+  .forground {
+    img {
+      position: absolute;
+      top: 0;
+    }
+  }
+}
+
+.sec2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px;
+
+  p {
+    text-align: center;
+  }
+}
+.swiper-item {
+  background-color: #211f1e;
+  color: #fff;
+  height: 40rem;
+  display: flex;
+  padding: 50px 0;
+  @media (max-width: 768px) {
+    height: auto;
+  }
+  .left {
+    @media (max-width: 768px) {
+      .image {
+        width: 50%;
+      }
+    }
+  }
+  .right {
+    font-family: "PT Serif", serif;
+    .box {
+      .title {
+        font-weight: 900;
+        font-size: 80px;
+        @media (max-width: 768px) {
+          font-size: 40px;
+        }
+      }
+      .sec-title {
+        font-weight: 900;
+        font-size: 30px;
+        @media (max-width: 768px) {
+          font-size: 15px;
+        }
+      }
+      .btn {
+        color: #ecb881;
+        position: relative;
+        border-radius: 0;
+        font-size: 0.778em;
+        padding: 1.3em 1.75em 1.75em;
+        border: 3px solid #ecb881;
+        line-height: 1.3em;
+
+        &:hover {
+          &::after {
+            opacity: 1;
+          }
+        }
+        &::after {
+          content: "";
+          position: absolute;
+          border: 3px solid #ecb881;
+          width: 103.9%;
+          height: 103.9%;
+          top: 2.02px;
+          left: 2.02px;
+          opacity: 0;
+          transition: 0.5s ease;
+        }
+      }
+    }
+    .btn {
+      color: #ecb881;
+      position: relative;
+      border-radius: 0;
+      font-size: 0.778em;
+      padding: 1.3em 1.75em 1.75em;
+      border: 3px solid #ecb881;
+      line-height: 1.3em;
+
+      &:hover {
+        &::after {
+          opacity: 1;
+        }
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        border: 3px solid #ecb881;
+        width: 103.9%;
+        height: 103.9%;
+        top: 2.02px;
+        left: 2.02px;
+        opacity: 0;
+        transition: 0.5s ease;
+      }
+    }
+  }
+}
+
+swiper-container::part(bullet-active) {
+  background-color: #ecb881;
+}
+swiper-container::part(bullet) {
+  background-color: rgb(255, 255, 255);
+}
+
+.coffee {
+  overflow: hidden;
+  .coffee-box {
+    padding-bottom: 50px;
+    .img {
+      position: relative;
+      padding: 0 2.5em;
+      .icon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 5em;
+        opacity: 0;
+        transition: all 0.3s ease 0s;
+      }
+      :hover.icon {
+        opacity: 1;
+      }
+    }
+    .title {
+      color: #453e3c;
+      font-family: "Grand Hotel", cursive;
+      font-weight: 400;
+      font-style: normal;
+      text-transform: capitalize;
+      transition: all 0.3s ease 0s;
+      :hover {
+        color: #009f3b;
+      }
+    }
+  }
+  .bg {
+    padding: 5rem;
+    background-image: url("../../../assets/img/bg.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+.coffee-bg {
+  position: relative;
+  background-image: url("../../../assets/img/bg_2.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 50% -156px;
+  height: 899px;
+  .img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+

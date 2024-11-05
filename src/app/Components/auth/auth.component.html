@@ -1,0 +1,139 @@
+<!-- 
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            formControlName="email">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        @if(loginForm.get('email')?.invalid && loginForm.get('email')?.touched)
+        {
+        <div>
+            @if(loginForm.get('email')?.errors?.['required'])
+            {
+            <small>Email is required.</small>
+            }
+            @if(loginForm.get('email')?.errors?.['email']){
+            <small>Invalid email format.</small>
+            }
+        </div>
+        }
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password">
+        @if(loginForm.get('password')?.invalid && loginForm.get('password')?.touched){
+        <div>
+            @if(loginForm.get('password')?.errors?.['required']){
+            <small>Password is required.</small>
+            }
+        </div>
+        }
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary">Submit</button>
+    @if(errorMessage)
+    {
+    <div class="error-message">{{ errorMessage }}</div>
+    }
+
+</form> -->
+
+<section class="page-section login-page">
+    <div class="full-width-screen">
+        <div class="container-fluid p-0">
+            <div class="content-detail p-0">
+                <!-- Login form -->
+                <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <div class="blobs_1"></div>
+                    <div class="blobs_2"></div>
+                    <div class="blobs_5"></div>
+                    <div class="blobs_6"></div>
+                    <div class="blobs_7"></div>
+                    <div class="imgcontainer">
+                        <img src="assets/img/logo-dark.png" alt="Avatar" class="avatar">
+                    </div>
+                    <div class="input-control">
+                        @if(errorMessage)
+                        {
+                        <div class="error-message text-danger">{{ errorMessage }}</div>
+                        }
+                        <input type="email" placeholder="Enter Email" name="email" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" formControlName="email">
+                        @if(loginForm.get('email')?.invalid && loginForm.get('email')?.touched)
+                        {
+                        <div>
+                            @if(loginForm.get('email')?.errors?.['required'])
+                            {
+                            <small class="text-danger">Email is required.</small>
+                            }
+                            @if(loginForm.get('email')?.errors?.['email']){
+                            <small class="text-danger">Invalid email format.</small>
+                            }
+                        </div>
+                        }
+                        <div class="password-field-show">
+                            <input [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Enter Password"
+                                name="password" class="password-field" value="" id="exampleInputPassword1"
+                                formControlName="password">
+                            <div data-toggle=".password-field" class="fa fa-fw fa-eye field-icon toggle-password"
+                                (click)="togglePasswordVisibility()">
+                                @if(!isPasswordVisible){
+                                <fa-icon [icon]="faEye"></fa-icon>
+                                }
+                                @if(isPasswordVisible)
+                                {
+                                <fa-icon [icon]="faEyeSlash"></fa-icon>
+                                }
+                            </div>
+
+
+                            @if(loginForm.get('password')?.invalid && loginForm.get('password')?.touched){
+                            <div>
+                                @if(loginForm.get('password')?.errors?.['required']){
+                                <small class="text-danger">Password is required.</small>
+                                }
+                            </div>
+                            }
+                        </div>
+                        @if(isUser){
+                            <label class="label-container">Remember me
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <span class="psw"><a href="forgot.html" class="forgot-btn">Forgot password?</a></span>
+                        }
+                        @else{
+                           <div class="d-flex justify-content-center align-items-center">
+                            <label class="label-container">I agree with <a href="">privacy Policy</a>
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                           </div>
+                        }
+                        <div class="login-btns">
+                            @if(!isUser)
+                            {
+                                <button type="submit" [disabled]="loginForm.invalid">Sign Up</button>
+                            }@else{
+                                <button type="submit" [disabled]="loginForm.invalid">Login</button>
+                            }    
+                        </div>
+                        <div class="division-lines">
+                            <p>{{isUser?'or signup with':'or login with'}}</p>
+                        </div>
+                        <div class="login-with-btns">
+                            <button type="button" class="google"><fa-icon [icon]="faGoogle"></fa-icon></button>
+                            <button type="button" class="facebook"><fa-icon [icon]="faFacebookF"></fa-icon></button>
+                            <button type="button" class="twitter"><fa-icon [icon]="faTwitter"></fa-icon></button>
+                            <button type="button" class="linkedin"><fa-icon [icon]="faLinkedinIn"></fa-icon></button>
+                            <span class="already-acc" (click)="alreadyUser()">{{isUser?'Not a member?':'Already you have an account?'}} <a class="signup-btn">{{isUser?'Sign Up':'Login'}}</a></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

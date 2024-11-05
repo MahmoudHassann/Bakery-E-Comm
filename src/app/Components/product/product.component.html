@@ -1,0 +1,76 @@
+<section class="product_details text-center">
+  <div class="title">
+    <h5>PRODUCT</h5>
+  </div>
+</section>
+
+<div class="parent">
+  <div class="col_1">
+    <div class="gallery">
+      <p-galleria
+        [value]="Product?.images"
+        [responsiveOptions]="responsiveOptions"
+        [containerStyle]="{ 'max-width': '100%' }"
+        [showThumbnailNavigators]="true"
+        [numVisible]="4"
+        [circular]="true"
+      >
+        <ng-template pTemplate="item" let-item>
+          <div
+            [ngStyle]="{
+              width: '100%',
+              height: '30rem',
+              display: 'block',
+              'background-image': 'url(' + item.itemImageSrc + ')',
+              'background-position': 'center',
+              'background-size': 'cover',
+              position: 'relative'
+            }"
+          ></div>
+        </ng-template>
+        
+        <ng-template pTemplate="thumbnail" let-item>
+
+          <div class="grid grid-nogutter justify-content-center">
+            <img
+              [src]="item.itemImageSrc"
+              style="display: block; width: 7rem"
+            />
+          </div>
+        </ng-template>
+      </p-galleria>
+    </div>
+  </div>
+  <div class="col_2">
+    <div class="box">
+      <h5 class="text-center mb-5">Details</h5>
+      <div class="details prod d-flex">
+        <p>Name</p>
+        <p>{{Product?.name}}</p>
+      </div>
+      <div class="details cust d-flex">
+        <p>Vendor</p>
+        <p>{{Product?.userID.name}}</p>
+      </div>
+      <div class="details loc d-flex">
+        <p>Location</p>
+        <p>Bakery</p>
+      </div>
+      <div class="details date d-flex">
+        <p>Date</p>
+        <p>{{Product?.createdAt | date}}</p>
+      </div>
+      <div class="button">
+        <button class="detail-btn btn" (click)="addToCart()">ADD TO CART</button>
+      </div>
+    </div>
+  </div>
+  <div class="prod_desc my-5">
+    <h3>Product Description</h3>
+    <p class="lead">
+      {{Product?.description}}
+    </p>
+  </div>
+</div>
+
+

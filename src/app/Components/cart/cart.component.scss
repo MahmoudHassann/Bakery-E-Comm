@@ -1,0 +1,239 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap");
+
+$table: (
+  background-color: rgba(white, 0.75),
+  background-alternate-color: rgba(#f1f1f1, 0.5),
+  background-header-color: rgba(#f1f1f1, 0.75),
+  border-color: #f1f1f1,
+);
+
+@function table($key) {
+  @return map-get($table, $key);
+}
+
+.cart-header {
+  background-image: url("../../../assets/img/bg6.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 175px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10rem;
+  position: relative;
+  h5 {
+    font-family: "Cormorant", serif;
+    font-weight: normal;
+    font-size: 50px;
+    line-height: 50px;
+    color: #fff;
+    position: relative;
+    z-index: 99999;
+  }
+  .title {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(45, 45, 45, 0.8) 0%,
+        rgba(45, 45, 45, 0) 100%
+      );
+    }
+  }
+}
+.table {
+  background: table(background-color);
+  border: solid 1px table(border-color);
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+
+  tr + tr {
+    border-top: solid 1px table(border-color);
+  }
+  tr:nth-child(odd) td {
+    background: table(background-alternate-color);
+  }
+
+  td,
+  th {
+    padding: 5px 10px;
+    text-align: left;
+  }
+  th {
+    background: table(background-header-color);
+    color: #2d2d2d;
+    font-weight: 400;
+    line-height: 1.5em;
+  }
+}
+
+.cart {
+  display: flex;
+  flex-direction: column;
+  font-family: "cabin", serif;
+  padding: 2rem;
+  .table.responsive {
+    &,
+    tbody,
+    tr,
+    td {
+      color: #7e7e7e;
+      display: block;
+      width: 100%;
+
+      .itemImage{
+        width: 32px;
+        height: auto;
+      }
+    }
+    td::before {
+      display: inline-block;
+      font-weight: 600;
+      width: 25%;
+    }
+    td:nth-child(1)::before {
+      content: " ";
+    }
+    td:nth-child(2)::before {
+      content: " ";
+    }
+    td:nth-child(3)::before {
+      content: "Product";
+    }
+    td:nth-child(4)::before {
+      content: "Price";
+    }
+    td:nth-child(5)::before {
+      content: "Quantity";
+    }
+    td:nth-child(6)::before {
+      content: "Subtotal";
+    }
+    th {
+      display: none;
+    }
+
+    .btn {
+      padding: 0.618em 1em;
+      background-color: #e3a087;
+      border-radius: 0px;
+      text-transform: uppercase;
+      font-family: "Cormorant", sans-serif;
+      font-weight: normal;
+      color: #fff;
+    }
+  }
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    width: 120px; // You can adjust the width based on your needs
+    background-color: #f9f9f9;
+  
+    button {
+      width: 30px;
+      height: 30px;
+      font-size: 18px;
+      border: none;
+      background-color: #e3a087; // Bootstrap primary color
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+  
+      &:hover {
+        background-color: darken(#e3a087, 10%); // Darker shade on hover
+      }
+  
+      &:disabled {
+        background-color: #ccc; // Disabled state
+        cursor: not-allowed;
+      }
+    }
+  
+    input {
+      width: 50px;
+      text-align: center;
+      border: none;
+      background: none;
+      font-size: 16px;
+      color: #333;
+  
+      &:focus {
+        outline: none; // Remove outline on focus
+      }
+    }
+  }
+  
+  .faXmark{
+    cursor: pointer;
+  }
+  
+  @media (min-width: 768px) {
+    .table.responsive {
+      display: table;
+      width: 75%;
+      tbody {
+        display: table-row-group;
+      }
+      tr {
+        display: table-row;
+      }
+      td::before {
+        display: none;
+      }
+      td,
+      th {
+        display: table-cell;
+        padding: 20px;
+      }
+      .upd-btn {
+        padding: 0%;
+        text-align: right;
+      }
+    }
+  }
+
+  .cart-totals {
+    padding: 20px 0;
+    font-family: "Cormorant", sans-serif;
+  }
+  .c-total {
+    tr,
+    td {
+      color: #7e7e7e;
+    }
+    @media (min-width: 768px) {
+      display: table-row-group;
+      width: 50%;
+      th,
+      td {
+        padding: 20px;
+      }
+      tr,
+      td {
+        width: 100%;
+      }
+    }
+  }
+  .check-btn {
+    width: 50%;
+    .btn {
+      background-color: #e3a087;
+      border-radius: 0px;
+      padding: 20px;
+      text-transform: uppercase;
+      font-family: "Cormorant", sans-serif;
+      font-weight: normal;
+      color: #fff;
+    }
+  }
+}

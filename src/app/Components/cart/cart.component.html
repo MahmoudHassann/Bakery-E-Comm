@@ -1,0 +1,59 @@
+<section class="cart-header text-center">
+  <div class="title">
+    <h5>CART</h5>
+  </div>
+</section>
+
+<div class="cart d-flex justify-content-center align-items-center">
+  <table class="table responsive">
+    <tbody>
+      <tr>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+      </tr>
+      @for(item of cartItems; track item._id; let i = $index)
+      {
+      <tr>
+        <td><fa-icon [icon]="faXmark" (click)="removeCartItem(item.itemId._id)" class="faXmark"></fa-icon></td>
+        <td><img [src]="item.itemId.images[0].itemImageSrc" alt="item.itemId.images[0].alt" class="itemImage"></td>
+        <td>{{item.name}}</td>
+        <td>{{item.price}}</td>
+        <td>
+          <div class="quantity-selector">
+            <button (click)="decreaseQuantity(item)" [disabled]="item.quantity <= 1">-</button>
+            <input type="number" [value]="item.quantity" readonly>
+            <button (click)="increaseQuantity(item)">+</button>
+          </div>
+        </td>
+        <td>{{item.price * item.quantity}}</td>
+      </tr>
+      }
+      <tr>
+        <td class="upd-btn" colspan="6"><button class="btn" [disabled]="updateditems.length === 0" (click)="updateCart()">update table</button></td>
+      </tr>
+    </tbody>
+
+  </table>
+  <div class="cart-totals">
+    <h2>Cart Totals</h2>
+  </div>
+  <table class="table c-total">
+    <tbody>
+      <tr>
+        <th>SUBTOTAL</th>
+        <td><span>${{totalPrice}}</span></td>
+      </tr>
+      <tr>
+        <th>TOTAL</th>
+        <td><span>${{totalPrice}}</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="check-btn">
+    <button class="btn w-100" routerLink="/checkout">Check Out</button>
+  </div>
+</div>

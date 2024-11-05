@@ -1,0 +1,106 @@
+.bakery-footer {
+  background-image: url('../../../assets/img/footer-bg.jpg'); // Replace with actual path
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding-left: 144.6px;
+  padding-right: 144.4px;
+
+  .footer-background {
+   
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding-top: 70px !important;
+      padding-bottom: 70px !important;
+
+      .footer-section {
+        margin-bottom: 30px;
+
+        h2,
+        h3 {
+          font-size: 17px;
+          line-height: 17px;
+          margin-bottom: 15px;
+          letter-spacing: 2px;
+        }
+
+        p {
+          font-size: 14px;
+          line-height: 27px;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+
+          li {
+            margin-bottom: 10px;
+
+            a {
+              color: #fff;
+              text-decoration: none;
+
+              &:hover {
+                color: #f4a261;
+              }
+            }
+          }
+        }
+
+        .footer-icons {
+          margin-top: 20px;
+
+          a {
+            margin-right: 10px;
+            color: white;
+            font-size: 20px;
+
+            &:hover {
+              color: #f4a261;
+            }
+          }
+        }
+      }
+    }
+
+    .footer-copyright {
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid #ccc;
+
+      p {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+// Make the footer sections stack on smaller screens
+@media (max-width: 767px) {
+  .footer-section {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .footer-icons a {
+    margin-right: 5px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .footer-section {
+    text-align: left;
+    margin-bottom: 30px;
+  }
+}
+
+// Set height for background image in mobile for better visibility
+@media (max-width: 576px) {
+  .bakery-footer {
+    background-position: center center;
+    background-size: contain;
+  }
+}

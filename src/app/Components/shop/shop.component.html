@@ -1,0 +1,147 @@
+<section class="bg">
+  <div class="promoBg">
+    <h1>Our Shop</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor quisquam
+      dolores vero distinctio tempore error ratione sed laborum atque, hic ex
+      obcaecati quaerat dicta quos illo sunt fuga sit neque?
+    </p>
+    <button class="btn mt-5">Promotions</button>
+    <div class="promotions mt-5">
+      <div class="row gap-5">
+        @for(prod of Promotions; track prod._id)
+        {
+        <div class="col-md-6 col-lg-3 img" [id]=prod._id (click)="product(prod._id)"
+          [style.background-image]="'url(' + prod.images[0].itemImageSrc + ')'">
+          <div class="price">$ {{prod.finalPrice}}</div>
+          <h5>{{prod.name}}</h5>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products p-5">
+  <h6 class="text-center my-4">NEW</h6>
+  <h2 class="text-center mb-5">PRODUCTS</h2>
+  <div class="category">
+    <div role="navigation" class="primary-navigation">
+      <ul>
+        <li class="category-list"><a (click)="filter_cat('all')" [style.color]="selectedCategory? '' :'#e3a087'">All</a>
+        </li>
+        @for(cat of Categories; track cat._id)
+        {
+        @if(cat.subcategoriesList.length > 0)
+        {
+        <li class="category-list"><a [style.color]="selectedCategory == cat.name? '#e3a087' :''">{{cat.name}}
+            &dtrif;</a>
+
+          @for(subCat of cat.subcategoriesList; track subCat._id)
+          {
+          <ul class="dropdown">
+            <li><a (click)="filter_subCat(subCat.name,cat.name)"
+                [style.color]="selectedSubCategory == subCat.name? '#e3a087' :''">{{subCat.name}}</a></li>
+          </ul>
+          }
+        </li>
+        }@else{
+        <li class="category-list" (click)="filter_cat(cat.name)"><a
+            [style.color]="selectedCategory == cat.name? '#e3a087' :''">{{cat.name}}</a>
+          }
+
+          }
+        <li class="category-list" [style.color]="selectedCategory == 'filter'? '#e3a087' :''" data-bs-toggle="modal"
+          data-bs-target="#exampleModal"><fa-icon [icon]="faFilter"></fa-icon></li>
+        <!-- Modal -->
+        <div #exampleModal class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <form [formGroup]="modalForm" (ngSubmit)="searchFilter()">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Filter Search</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <legend>Price</legend>
+                  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="price" id="btnradio1" autocomplete="off"
+                      formControlName="price" [value]="'less1000'">
+                    <label class="btn btn-outline-primary" for="btnradio1">From 0 to 500</label>
+
+                    <input type="radio" class="btn-check" name="price" id="btnradio2" autocomplete="off"
+                      formControlName="price" [value]="'To3000'">
+                    <label class="btn btn-outline-primary" for="btnradio2">From 500 to 3000</label>
+
+                    <input type="radio" class="btn-check" name="price" id="btnradio3" autocomplete="off"
+                      formControlName="price" [value]="'more3000'">
+                    <label class="btn btn-outline-primary" for="btnradio3">More Than 3000</label>
+                  </div>
+                  <hr>
+                  <legend>Category</legend>
+                  <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" formControlName="Pastry">
+                    <label class="btn btn-outline-primary" for="btncheck1">Pastry</label>
+
+                    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off" formControlName="sweet">
+                    <label class="btn btn-outline-primary" for="btncheck2">Sweet</label>
+
+                    <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off" formControlName="Coffee">
+                    <label class="btn btn-outline-primary" for="btncheck3">Coffee</label>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-outline-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </ul>
+    </div>
+  </div>
+  <div class="box text-center">
+    <div class="row">
+      @for(prod of filteredProducts; track prod._id)
+      {
+      <div class="col-md-4" [id]=prod._id>
+        <div class="img position-relative">
+          @if(prod.discount)
+          {
+          <div class="sale">
+            <span>SALE</span>
+          </div>
+          }
+          <img [src]=prod.images[0].itemImageSrc class="img-fluid w-75" alt="">
+        </div>
+        <div class="prod_name mt-3" (click)="product(prod._id)">
+          <h4>{{prod.name}}</h4>
+        </div>
+        <div class="prod_price mb-4">
+          <h6>$ {{prod.finalPrice}}</h6>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  <nav aria-label="Page navigation" class="d-flex align-items-center justify-content-center">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(currentPage - 1)">Previous</a>
+      </li>
+      @for(page of pages; track page)
+      {
+      <li class="page-item" [class.active]="page === currentPage">
+        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+      </li>
+      }
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Next</a>
+      </li>
+    </ul>
+  </nav>
+
+
+</section>

@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+.contact-page {
+    font-family: "Oswald", sans-serif;
+    color: #333;
+  
+    .contact-header {
+      background-size: cover;
+      background-position: center -2.296px;
+      height: 410px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+  
+      h1 {
+        font-family: "Cormorant", serif;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        
+      }
+    }
+  
+    .contact-content {
+        padding: 114px  0!important;
+  
+      h2 {
+        font-family: "Oswald", sans-serif;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        position: relative;
+        &::after{
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            height: 3px;
+            width: 120px;
+            border-bottom: 3px solid #c7a17a;
+        }
+      }
+  
+      p {
+        font-family: "Oswald", sans-serif;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+      }
+  
+      .write-us {
+        form {
+          display: flex;
+          flex-direction: column;
+  
+          input,
+          textarea {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          }
+  
+          button {
+            background-color: #c19b76;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+  
+            &:hover {
+              background-color: #a37f56;
+            }
+          }
+        }
+      }
+  
+      .locations {
+        .location-details {
+          div {
+            margin-bottom: 2rem;
+  
+            h4 {
+
+                font-family: "Oswald", sans-serif;
+              font-weight: bold;
+              margin-top: 1rem;
+            }
+  
+            p {
+              margin: 0.25rem 0;
+            }
+          }
+        }
+      }
+    }
+  
+    .map-section {
+      height: 450px;
+
+    }
+  }
+  

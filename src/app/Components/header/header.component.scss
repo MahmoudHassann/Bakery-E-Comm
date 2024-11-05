@@ -1,0 +1,49 @@
+.navbar {
+  position: relative;
+  font-weight: 900;
+}
+
+.nav-item.logo {
+  width: 150px;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 99;
+}
+
+.active {
+  color: #cd823d !important;
+}
+
+.badge {
+  font-size: 10px;
+  top: 5px !important;
+  left: 90% !important;
+  padding: 0.0 !important;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+
+@media (max-width: 992px) {
+  .badge {
+    top: 5px !important;
+    left: 4% !important;
+  }
+
+  li:last-child {
+    display: none !important;
+  }
+
+  li:nth-child(5) {
+    padding-left: 0 !important;
+  }
+}
