@@ -72,15 +72,18 @@ export class ShopComponent implements OnInit {
     this.router.navigate([`/product/${id}`])
   }
   getAllProducts(page?: number, filter?: any, pageSize = 12) {
+    
     if (filter && filter.length > 0) {
-      // When filters are applied, fetch all items and filter locally
-      this.Prod_Service.getProducts(1, 0).subscribe({
+      // Fetch all items to apply the filter locally
+      this.Prod_Service.getProducts(1).subscribe({
         next: (res: any) => {
           this.Products = res.item; // Load all items from the backend
+          console.log(this.Products);
+          
           this.filteredProducts = this.Products.filter((product: any) => {
             let matchesCategory = true;
             let matchesPrice = true;
-  
+
             // Apply each filter condition
             filter.forEach((criteria: any) => {
               if (criteria.price) {
@@ -96,29 +99,30 @@ export class ShopComponent implements OnInit {
                 matchesCategory = matchesCategory && criteria.category.includes(product.category.name);
               }
             });
-  
+
             return matchesCategory && matchesPrice;
           });
-  
+
           // Display filtered results on a single page
           this.totalPages = 1;
           this.pages = [1];
+          console.log(this.filteredProducts);
         },
         error: (err) => {
           console.log('Fetch Error', err);
         }
       });
     } else {
-      // No filter applied, fetch paginated data with default page size (12)
+      // If no filter, fetch paginated data with default page size
       this.Prod_Service.getProducts(page, pageSize).subscribe({
         next: (res: any) => {
           this.Products = res.item;
           this.filteredProducts = [...this.Products];
-  
+
           const totalCount = res.totalCount;
           this.totalPages = Math.ceil(totalCount / pageSize);
           this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  
+
           // Process promotions
           this.Promotions = this.Products
             .filter((product: any) => product.discount > 0)
@@ -131,7 +135,8 @@ export class ShopComponent implements OnInit {
       });
     }
   }
-  
+
+
 
   getAllCategories() {
     this.Prod_Service.getCategories().subscribe({
@@ -198,10 +203,9 @@ export class ShopComponent implements OnInit {
       filter.push({ category: selectedCategories });
     }
 
-    // Call getAllProducts with modified page size
-    const pageSize = filter.length > 0 ? 0 : 12; // 0 means show all if filtered, otherwise 12
-
-    this.getAllProducts(1, filter, pageSize);
+   
+ 
+    this.getAllProducts(1, filter);
     this.modalForm.reset();
 
     const modalInstance = bootstrap.Modal.getInstance(this.exampleModal?.nativeElement);
