@@ -188,7 +188,7 @@ export class ShopComponent implements OnInit {
     const selectedCategories: string[] = [];
 
     // Add selected categories to the array
-    if (sweet) selectedCategories.push("sweet");
+    if (sweet) selectedCategories.push("Sweet");
     if (pastry) selectedCategories.push("Pastry");
     if (coffee) selectedCategories.push("Coffee");
 
