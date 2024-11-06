@@ -72,48 +72,53 @@ export class ShopComponent implements OnInit {
     this.router.navigate([`/product/${id}`])
   }
   getAllProducts(page?: number, filter?: any, pageSize = 12) {
-    // Check if a filter is applied
     if (filter && filter.length > 0) {
-      // Apply filter locally on this.Products
-      this.filteredProducts = this.Products.filter((product: any) => {
-        let matchesCategory = true;
-        let matchesPrice = true;
-
-        // Check each filter condition
-        filter.forEach((criteria: any) => {
-          if (criteria.price) {
-            if (criteria.price === 'less1000') {
-              matchesPrice = matchesPrice && product.price <= 500;
-            } else if (criteria.price === 'To3000') {
-              matchesPrice = matchesPrice && product.price > 500 && product.price <= 3000;
-            } else if (criteria.price === 'more3000') {
-              matchesPrice = matchesPrice && product.price > 3000;
-            }
-          }
-
-          if (criteria.category) {
-            matchesCategory = matchesCategory && criteria.category.includes(product.category.name);
-          }
-        });
-
-        return matchesCategory && matchesPrice;
+      // When filters are applied, fetch all items and filter locally
+      this.Prod_Service.getProducts(1, 0).subscribe({
+        next: (res: any) => {
+          this.Products = res.item; // Load all items from the backend
+          this.filteredProducts = this.Products.filter((product: any) => {
+            let matchesCategory = true;
+            let matchesPrice = true;
+  
+            // Apply each filter condition
+            filter.forEach((criteria: any) => {
+              if (criteria.price) {
+                if (criteria.price === 'less1000') {
+                  matchesPrice = matchesPrice && product.price <= 500;
+                } else if (criteria.price === 'To3000') {
+                  matchesPrice = matchesPrice && product.price > 500 && product.price <= 3000;
+                } else if (criteria.price === 'more3000') {
+                  matchesPrice = matchesPrice && product.price > 3000;
+                }
+              }
+              if (criteria.category) {
+                matchesCategory = matchesCategory && criteria.category.includes(product.category.name);
+              }
+            });
+  
+            return matchesCategory && matchesPrice;
+          });
+  
+          // Display filtered results on a single page
+          this.totalPages = 1;
+          this.pages = [1];
+        },
+        error: (err) => {
+          console.log('Fetch Error', err);
+        }
       });
-
-      // Set pagination based on the filtered products count
-      this.totalPages = 1; // Show all results on a single page if filtering
-      this.pages = [1]; // Only one page for filtered results
-
     } else {
-      // If no filter is applied, fetch all products with API
-      this.Prod_Service.getProducts(page).subscribe({
+      // No filter applied, fetch paginated data with default page size (12)
+      this.Prod_Service.getProducts(page, pageSize).subscribe({
         next: (res: any) => {
           this.Products = res.item;
           this.filteredProducts = [...this.Products];
-
+  
           const totalCount = res.totalCount;
           this.totalPages = Math.ceil(totalCount / pageSize);
           this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-
+  
           // Process promotions
           this.Promotions = this.Products
             .filter((product: any) => product.discount > 0)
@@ -125,9 +130,8 @@ export class ShopComponent implements OnInit {
         }
       });
     }
-
-
   }
+  
 
   getAllCategories() {
     this.Prod_Service.getCategories().subscribe({
