@@ -37,13 +37,14 @@
         <li class="category-list"><a [style.color]="selectedCategory == cat.name? '#e3a087' :''">{{cat.name}}
             &dtrif;</a>
 
-          @for(subCat of cat.subcategoriesList; track subCat._id)
-          {
+
           <ul class="dropdown">
+            @for(subCat of cat.subcategoriesList; track subCat._id)
+            {
             <li><a (click)="filter_subCat(subCat.name,cat.name)"
                 [style.color]="selectedSubCategory == subCat.name? '#e3a087' :''">{{subCat.name}}</a></li>
+            }
           </ul>
-          }
         </li>
         }@else{
         <li class="category-list" (click)="filter_cat(cat.name)"><a

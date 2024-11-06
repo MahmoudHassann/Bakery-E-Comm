@@ -55,6 +55,7 @@ export class ShopComponent implements OnInit {
     this.getAllProducts();
     this.getAllCategories();
     this.getAllProducts(this.currentPage);
+    
   }
 
   changePage(page: number) {
