@@ -14,7 +14,7 @@
         <div class="col-md-6 col-lg-3 img" [id]=prod._id (click)="product(prod._id)"
           [style.background-image]="'url(' + prod.images[0].itemImageSrc + ')'">
           <div class="price">$ {{prod.finalPrice}}</div>
-          <h5>{{prod.name}}</h5>
+          <h5 class="name">{{prod.name}}</h5>
         </div>
         }
       </div>
