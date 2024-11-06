@@ -4,7 +4,7 @@
   position: relative;
   background-image: url(../../../assets/img/BG3.jpg);
   background-position: center;
-  color: #fff;
+  color: #e3a087;
   text-align: center;
   padding: 60px 60px 80px 60px;
 
@@ -41,6 +41,7 @@
           display: grid;
 
           .price {
+            color: #fff;
             background-color: #c19b77;
             height: fit-content;
             padding: 0 10px;
@@ -103,6 +104,15 @@
 }
 
 .products {
+  .prod_price{
+    display: flex;
+    justify-content: center;
+    .priceSale{
+      margin-right: 1em;
+      text-decoration: line-through;
+      color: rgba($color: #e3a087, $alpha: 0.7);
+    }
+  }
 
   .primary-navigation {
     margin: 0 auto;
