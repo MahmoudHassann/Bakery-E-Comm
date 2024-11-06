@@ -137,7 +137,6 @@
         <a class="page-link" (click)="changePage(page)">{{ page }}</a>
       </li>
       }
-      {{pages}}
       <li class="page-item" [class.disabled]="currentPage === totalPages">
         <a class="page-link" (click)="changePage(currentPage + 1)">Next</a>
       </li>
