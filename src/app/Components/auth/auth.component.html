@@ -56,6 +56,11 @@
                         <img src="assets/img/logo-dark.png" alt="Avatar" class="avatar">
                     </div>
                     <div class="input-control">
+                        @if(!isUser)
+                        {
+                        <input type="text" placeholder="Enter Your Name" name="name" id="exampleInputname1"
+                            aria-describedby="nameHelp" formControlName="name">
+                        }
                         @if(errorMessage)
                         {
                         <div class="error-message text-danger">{{ errorMessage }}</div>
@@ -99,27 +104,27 @@
                             }
                         </div>
                         @if(isUser){
-                            <label class="label-container">Remember me
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                            <span class="psw"><a href="forgot.html" class="forgot-btn">Forgot password?</a></span>
+                        <label class="label-container">Remember me
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        <span class="psw"><a href="forgot.html" class="forgot-btn">Forgot password?</a></span>
                         }
                         @else{
-                           <div class="d-flex justify-content-center align-items-center">
+                        <div class="d-flex justify-content-center align-items-center">
                             <label class="label-container">I agree with <a href="">privacy Policy</a>
                                 <input type="checkbox">
                                 <span class="checkmark"></span>
                             </label>
-                           </div>
+                        </div>
                         }
                         <div class="login-btns">
                             @if(!isUser)
                             {
-                                <button type="submit" [disabled]="loginForm.invalid">Sign Up</button>
+                            <button type="submit" [disabled]="loginForm.invalid">Sign Up</button>
                             }@else{
-                                <button type="submit" [disabled]="loginForm.invalid">Login</button>
-                            }    
+                            <button type="submit" [disabled]="loginForm.invalid">Login</button>
+                            }
                         </div>
                         <div class="division-lines">
                             <p>{{isUser?'or signup with':'or login with'}}</p>
@@ -129,7 +134,8 @@
                             <button type="button" class="facebook"><fa-icon [icon]="faFacebookF"></fa-icon></button>
                             <button type="button" class="twitter"><fa-icon [icon]="faTwitter"></fa-icon></button>
                             <button type="button" class="linkedin"><fa-icon [icon]="faLinkedinIn"></fa-icon></button>
-                            <span class="already-acc" (click)="alreadyUser()">{{isUser?'Not a member?':'Already you have an account?'}} <a class="signup-btn">{{isUser?'Sign Up':'Login'}}</a></span>
+                            <span class="already-acc" (click)="alreadyUser()">{{isUser?'Not a member?':'Already you have
+                                an account?'}} <a class="signup-btn">{{isUser?'Sign Up':'Login'}}</a></span>
                         </div>
                     </div>
                 </form>

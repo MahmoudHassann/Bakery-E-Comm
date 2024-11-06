@@ -33,6 +33,7 @@ export class AuthComponent {
 
   constructor(private authService: AuthService, private router: Router, private paymentService: PaymentService,private route: ActivatedRoute ) {
     this.loginForm = new FormGroup({
+      name: new FormControl(""),
       email: new FormControl("", [Validators.email, Validators.required]),
       password: new FormControl("", [Validators.required])
     })
@@ -63,10 +64,23 @@ export class AuthComponent {
         });
       },
       error: (err) => {
-        this.errorMessage = 'Login failed. Please check your credentials.';
+        this.errorMessage = err.error.message;
         console.error('Login Error', err);
       }
     });
+  }
+
+  register(){
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    this.authService.register(this.loginForm.value).subscribe({
+      next:(res)=>{
+        this.isUser = true;
+      }
+    })
+    
   }
 
   togglePasswordVisibility(): void {
@@ -81,7 +95,7 @@ export class AuthComponent {
       this.login()
     }
     else{
-      console.log("register");
+      this.register()
       
     }
   }

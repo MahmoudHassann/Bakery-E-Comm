@@ -85,6 +85,10 @@ export class AuthService {
 
   }
 
+  register(data:any):Observable<any>{
+    return this.http.post(`${BASE_URL}auth/signup`,data)
+  }
+
   logout(): Observable<any> {
     this.isLoggingOut = true; // Set flag to prevent further refresh attempts
     this.loggedInSubject.next(false);
