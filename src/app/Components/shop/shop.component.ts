@@ -55,7 +55,7 @@ export class ShopComponent implements OnInit {
     this.getAllProducts();
     this.getAllCategories();
     this.getAllProducts(this.currentPage);
-    
+
   }
 
   changePage(page: number) {
@@ -71,34 +71,60 @@ export class ShopComponent implements OnInit {
 
     this.router.navigate([`/product/${id}`])
   }
-  getAllProducts(page?: number) {
+  getAllProducts(page?: number, filter?: any, pageSize = 12) {
+    // Check if a filter is applied
+    if (filter && filter.length > 0) {
+      // Apply filter locally on this.Products
+      this.filteredProducts = this.Products.filter((product: any) => {
+        let matchesCategory = true;
+        let matchesPrice = true;
 
-    this.Prod_Service.getProducts(page).subscribe({
-      next: (res: any) => {
-        // Assuming res.item contains an array of products with 'discount' property
-        this.Products = res.item;
-        this.filteredProducts = [...this.Products]
-        // Assuming res.totalCount is the total number of products returned by the API
-        const totalCount = res.totalCount;
-        const pageSize = 12; // or whatever your page size is
-        this.totalPages = Math.ceil(totalCount / pageSize); // Calculate total pages dynamically
-        this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1); // Create an array of page numbers
+        // Check each filter condition
+        filter.forEach((criteria: any) => {
+          if (criteria.price) {
+            if (criteria.price === 'less1000') {
+              matchesPrice = matchesPrice && product.price <= 500;
+            } else if (criteria.price === 'To3000') {
+              matchesPrice = matchesPrice && product.price > 500 && product.price <= 3000;
+            } else if (criteria.price === 'more3000') {
+              matchesPrice = matchesPrice && product.price > 3000;
+            }
+          }
 
+          if (criteria.category) {
+            matchesCategory = matchesCategory && criteria.category.includes(product.category.name);
+          }
+        });
 
-        // Sort products only if discount exists, and then get the top 4 products with the highest discount
-        this.Promotions = this.Products
-          // Filter products where discount exists and is greater than 0
-          .filter((product: any) => product.discount > 0)
-          // Sort filtered products by discount in descending order
-          .sort((a: any, b: any) => b.discount - a.discount)
-          // Get the top 4 products with the highest discount
-          .slice(0, 4);
+        return matchesCategory && matchesPrice;
+      });
 
-      },
-      error: (err) => {
-        console.log('Fetch Error', err);
-      }
-    });
+      // Set pagination based on the filtered products count
+      this.totalPages = 1; // Show all results on a single page if filtering
+      this.pages = [1]; // Only one page for filtered results
+
+    } else {
+      // If no filter is applied, fetch all products with API
+      this.Prod_Service.getProducts(page).subscribe({
+        next: (res: any) => {
+          this.Products = res.item;
+          this.filteredProducts = [...this.Products];
+
+          const totalCount = res.totalCount;
+          this.totalPages = Math.ceil(totalCount / pageSize);
+          this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+
+          // Process promotions
+          this.Promotions = this.Products
+            .filter((product: any) => product.discount > 0)
+            .sort((a: any, b: any) => b.discount - a.discount)
+            .slice(0, 4);
+        },
+        error: (err) => {
+          console.log('Fetch Error', err);
+        }
+      });
+    }
 
 
   }
@@ -139,11 +165,12 @@ export class ShopComponent implements OnInit {
   }
 
   searchFilter() {
-    this.selectedCategory = 'filter'
-    const price = this.modalForm.value.price
-    const sweet = this.modalForm.value.sweet
-    const pastry = this.modalForm.value.Pastry
-    const coffee = this.modalForm.value.Coffee
+    const filter = [];
+    this.selectedCategory = 'filter';
+    const price = this.modalForm.value.price;
+    const sweet = this.modalForm.value.sweet;
+    const pastry = this.modalForm.value.Pastry;
+    const coffee = this.modalForm.value.Coffee;
     const selectedCategories: string[] = [];
 
     // Add selected categories to the array
@@ -154,33 +181,29 @@ export class ShopComponent implements OnInit {
     // Filter by price if specified
     if (price) {
       if (price === 'less1000') {
-        this.filteredProducts = this.Products.filter(item => item.price <= 500);
+        filter.push({ price: 'less1000' });
       } else if (price === 'To3000') {
-        this.filteredProducts = this.Products.filter(item => item.price > 500 && item.price <= 3000);
+        filter.push({ price: 'To3000' });
       } else if (price === 'more3000') {
-        this.filteredProducts = this.Products.filter(item => item.price > 3000);
+        filter.push({ price: 'more3000' });
       }
     }
+
     // Filter by selected categories if no price is set
-    else if (selectedCategories.length > 0) {
-      this.filteredProducts = this.Products.filter(product =>
-        selectedCategories.includes(product.category.name)
-      );
-      console.log(selectedCategories);
-
-    }
-    // If no filters are applied, return all products
-    else {
-      this.filteredProducts = [...this.Products];
+    if (selectedCategories.length > 0) {
+      filter.push({ category: selectedCategories });
     }
 
+    // Call getAllProducts with modified page size
+    const pageSize = filter.length > 0 ? 0 : 12; // 0 means show all if filtered, otherwise 12
+
+    this.getAllProducts(1, filter, pageSize);
     this.modalForm.reset();
 
     const modalInstance = bootstrap.Modal.getInstance(this.exampleModal?.nativeElement);
     if (modalInstance) {
       modalInstance.hide();
     }
-
   }
 
 
