@@ -78,7 +78,6 @@ export class ShopComponent implements OnInit {
       this.Prod_Service.getProducts(1).subscribe({
         next: (res: any) => {
           this.Products = res.item; // Load all items from the backend
-          console.log(this.Products);
           
           this.filteredProducts = this.Products.filter((product: any) => {
             let matchesCategory = true;
@@ -105,8 +104,7 @@ export class ShopComponent implements OnInit {
 
           // Display filtered results on a single page
           this.totalPages = 1;
-          this.pages = [1];
-          console.log(this.filteredProducts);
+          this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
         },
         error: (err) => {
           console.log('Fetch Error', err);
