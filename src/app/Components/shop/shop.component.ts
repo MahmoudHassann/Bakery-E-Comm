@@ -79,7 +79,7 @@ export class ShopComponent implements OnInit {
         this.filteredProducts = [...this.Products]
         // Assuming res.totalCount is the total number of products returned by the API
         const totalCount = res.totalCount;
-        const pageSize = 10; // or whatever your page size is
+        const pageSize = 12; // or whatever your page size is
         this.totalPages = Math.ceil(totalCount / pageSize); // Calculate total pages dynamically
         this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1); // Create an array of page numbers
 

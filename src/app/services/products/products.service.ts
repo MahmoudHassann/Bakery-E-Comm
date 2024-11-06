@@ -17,7 +17,7 @@ export class ProductsService {
 
   getProducts(page?: number, size?: number): Observable<Product> {
 
-    return this.Http.get<Product>(`${BASE_URL}item?page=${page ? page : page = 1}&size=${size ? size : size = 10}`);
+    return this.Http.get<Product>(`${BASE_URL}item?page=${page ? page : page = 1}&size=${size ? size : size = 12}`);
 
   }
   getCategories(page?: number, size?: number): Observable<Category> {
