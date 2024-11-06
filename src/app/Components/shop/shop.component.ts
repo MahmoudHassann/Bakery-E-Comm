@@ -31,6 +31,7 @@ export class ShopComponent implements OnInit {
 
   Products: Product[] = []
   filteredProducts: Product[] = []
+  showProducts: Product[] = []
   Promotions: Product[] = []
   Categories: Category[] = []
   subCategories: SubCategory[] = []
@@ -42,6 +43,7 @@ export class ShopComponent implements OnInit {
   totalPages = 1;
   pages: number[] = [];
   filterState: { price?: string; categories?: string[] } = {}
+  totalCount: number = 0
 
 
   ngOnInit() {
@@ -72,13 +74,13 @@ export class ShopComponent implements OnInit {
     this.router.navigate([`/product/${id}`])
   }
   getAllProducts(page?: number, filter?: any, pageSize = 12) {
-    
+
     if (filter && filter.length > 0) {
       // Fetch all items to apply the filter locally
       this.Prod_Service.getProducts(1).subscribe({
         next: (res: any) => {
           this.Products = res.item; // Load all items from the backend
-          
+
           this.filteredProducts = this.Products.filter((product: any) => {
             let matchesCategory = true;
             let matchesPrice = true;
@@ -115,10 +117,11 @@ export class ShopComponent implements OnInit {
       this.Prod_Service.getProducts(page, pageSize).subscribe({
         next: (res: any) => {
           this.Products = res.item;
+          this.showProducts = [...this.Products];
           this.filteredProducts = [...this.Products];
 
-          const totalCount = res.totalCount;
-          this.totalPages = Math.ceil(totalCount / pageSize);
+          this.totalCount = res.totalCount;
+          this.totalPages = Math.ceil(this.totalCount / pageSize);
           this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
 
           // Process promotions
@@ -153,7 +156,8 @@ export class ShopComponent implements OnInit {
     this.selectedSubCategory = subCatName
     this.selectedCategory = catName
     this.filteredProducts = this.Products.filter(product => product.subCategory.name === subCatName);
-
+    this.totalPages = Math.ceil(this.filteredProducts.length / 12);
+    this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   filter_cat(catName: string) {
@@ -161,13 +165,16 @@ export class ShopComponent implements OnInit {
     if (catName === 'all') {
       this.selectedSubCategory = ''
       this.selectedCategory = ''
+      this.totalPages = Math.ceil(this.totalCount / 12);
+      this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
 
-      this.filteredProducts = [...this.Products]
+      this.filteredProducts = this.showProducts
     }
     else {
-
       this.selectedCategory = catName
-      this.filteredProducts = this.Products.filter(product => product.category.name === catName);
+      this.filteredProducts = this.showProducts.filter(product => product.category.name === catName);
+      this.totalPages = Math.ceil(this.filteredProducts.length / 12);
+      this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
     }
   }
 
@@ -201,8 +208,8 @@ export class ShopComponent implements OnInit {
       filter.push({ category: selectedCategories });
     }
 
-   
- 
+
+
     this.getAllProducts(1, filter);
     this.modalForm.reset();
 
