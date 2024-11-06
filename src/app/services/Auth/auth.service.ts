@@ -22,7 +22,7 @@ export class AuthService {
   // Observable to subscribe to authentication state changes
   public isLoggedIn$: Observable<boolean> = this.loggedInSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) platformId: Object, private ngZone: NgZone,private paymentService:PaymentService) {
+  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) platformId: Object, private ngZone: NgZone, private paymentService: PaymentService) {
     this.broadcastChannel = new BroadcastChannel('auth_channel');
     this.platformId = platformId;
 
@@ -40,12 +40,13 @@ export class AuthService {
       if (message.data.action === 'logout') {
         this.ngZone.run(() => {
           this.clearStorage();
+          this.loggedInSubject.next(false);
           this.router.navigate(['/auth']);
         })
       }
       else {
         this.ngZone.run(() => {
-
+          this.loggedInSubject.next(true);
           this.router.navigate(['/home']);
         })
       }
@@ -61,8 +62,7 @@ export class AuthService {
   storeAccessToken(accessToken: string) {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.accessTokenKey, accessToken);
-      const channel = new BroadcastChannel('auth_channel');
-      channel.postMessage({ action: 'login' }); // This sends the logout message
+      this.broadcastChannel.postMessage({ action: 'login' }); // This sends the logout message
     }
   }
 
@@ -90,13 +90,12 @@ export class AuthService {
     this.loggedInSubject.next(false);
     return this.http.post(`${BASE_URL}auth/logout`, {}).pipe(
       tap(() => {
-        const channel = new BroadcastChannel('auth_channel');
-        channel.postMessage({ action: 'logout' }); // This sends the logout message
+        this.broadcastChannel.postMessage({ action: 'logout' }); // This sends the logout message
         this.clearStorage();
         const count = this.paymentService.getStoredCartCount()
         this.paymentService.cartCount.next(count)
         this.paymentService.cartCount$.subscribe({
-          next:(res)=>{
+          next: (res) => {
             console.log(res);
           }
         })
